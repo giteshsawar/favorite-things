@@ -2,11 +2,14 @@ var express = require('express');
 var router = express.Router();
 var jwt = require('jsonwebtoken');
 var secret = 'CampK12LiveSecretKey';
+const mongoose = require('mongoose');
+const UserSchema = mongoose.model('user');
 
 module.exports = passport => {
     
     router.get('/success', (req, res) => {
-       res.send({state: 'success', user: req.user ? req.user : null}); 
+        console.log('wend user auth success', req.user);
+       res.send({state: 'success', user: req.user ? req.user : null, message: req.session.message}); 
     });
    
     router.get('/failure', (req, res) => {
@@ -28,6 +31,16 @@ module.exports = passport => {
         successRedirect: '/auth/success',
         failureRedirect: '/auth/failure'
     }));
+
+    router.get('/checkAuth', (req, res) => {
+        console.log('check user auth status', req.user);
+        if (req.user) {
+            console.log('does user exist', req.user);
+            res.send({ user: req.user });
+        } else {
+            res.send({ user: null });
+        }
+    });
     
     router.get('/logout', (req, res) => {
         

@@ -15,7 +15,7 @@ app.use(expressip().getIpInfoMiddleware);
 
 //Configuration Files
 var dbConfig = require('./config/dbConfig');
-
+session
 //Database Connection
 mongoose.Promise = global.Promise;
 mongoose.connect(dbConfig.connection);
@@ -42,13 +42,11 @@ var initPassport = require('./passport_init');
 initPassport(passport);
 
 var auth = require('./routes/auth')(passport);
-var url = require('./routes/url');
-var short = require('./routes/short');
+var favourites = require('./routes/favourites');
 
 //Middlewares
 app.use('/auth', auth);
-app.use('/url', url);
-app.use('/shorti', short);
+app.use('/favourites', favourites);
 
 app.use(express.static('dist'));
 

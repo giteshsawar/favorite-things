@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Home from './Home';
-import Short from './Short';
 import './app.css';
 import ReactImage from './react.png';
 
@@ -19,7 +18,6 @@ export default class App extends Component {
     return (
       <Router>
          <Route path="/" exact component={Home} />
-         <Route path="/short/:shortCode" component={Short} />
       </Router>
     );
   }

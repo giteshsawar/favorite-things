@@ -1,41 +1,34 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var UserSchema = new mongoose.Schema({
-    
-    local: {
-        name: String,
-        username: String,
-        email: String,
-        password: String
-    }
+const UserSchema = new mongoose.Schema({
+  name: String,
+  username: String,
+  email: String,
+  password: String,
+  favourites: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'favouriteList'
+  }],
+  auditLogs: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'auditLogs'
+  }
 });
 
-var UrlSchema = new mongoose.Schema({
-    url: String,
-    short: String,
-    visitor: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'visitorList' 
-    },
+const FavouriteSchema = new mongoose.Schema({
+  title: String,
+  Description: String,
+  metadata: String,
+  category: String,
+},
+{
+  timestamps: true
 });
 
-var VisitorList = new mongoose.Schema({
-    list: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'visitors'
-    }]
-});
-
-var Visitors = new mongoose.Schema({
-    ip: String,
-    city: String,
-    country: String,
-    osName: String,
-    browserName: String,
-    mobileVendor: String,
+const AuditLogs = new mongoose.Schema({
+  list: [String]
 });
 
 mongoose.model('user', UserSchema);
-mongoose.model('url', UrlSchema);
-mongoose.model('visitorList', VisitorList);
-mongoose.model('visitors', Visitors);
+mongoose.model('favouriteList', FavouriteSchema);
+mongoose.model('auditLogs', AuditLogs);

@@ -8,30 +8,31 @@ var secret = 'CampKGurgaonSecretkey';
 var token = '';
 
 //Export function
+// eslint-disable-next-line func-names
 module.exports = function(passport) {
 
   //    User serialization
   passport.serializeUser((user, done) => {
     console.log("serial");
     // console.log(user);
-    if(user.local.username) {
-      console.log('serializing user:', user.local.username);
+    if (user.username) {
+      console.log('serializing user:', user.username);
       done(null, user._id);
     }
   });
 
   //    User deserialization
   passport.deserializeUser((id, done) => {
-        
-    User.findById(id, (err, user) => {
+    console.log('deserializr', id);
+    User.findById(id).populate(['auditLogs', 'favourites']).exec((err, user) => {
       console.log("deserializing user", user);
       if(err) {
         done(500,err);
       }
 
       else if(user) {
-        if(user.local.username) {
-          token = jwt.sign({id: user._id, username: user.local.username, email: user.local.email}, secret, {expiresIn: '24h'});
+        if(user.username) {
+          token = jwt.sign({id: user._id, username: user.username, email: user.email}, secret, {expiresIn: '24h'});
         }
         done(err, user);
       }
@@ -49,11 +50,9 @@ module.exports = function(passport) {
     passReqToCallback: true
   },
   ((req, username, password, done) => {
-        
-    User.findOne({'local.username': username},              
-            
+    User.findOne({'username': username}).populate(['auditLogs', 'favourites']).exec(              
       (err, user) => {
-            
+        console.log('login user to app', user, '\nerror: ', err);
         if(err) {
           return done(err);
           console.log(err);
@@ -69,7 +68,8 @@ module.exports = function(passport) {
           return done(null, false);
         }  
         else {
-          console.log("returning user", req.session);
+          console.log("returning user", req.session, user);
+          req.session.message = '';
           return done(null, user);
         }
       });
@@ -83,7 +83,7 @@ module.exports = function(passport) {
   }, ((req, username, password, done) => {
     console.log(username);
     console.log("username");
-    User.findOne({$or: [{'local.username': username}, {'local.email': req.body.email}]},
+    User.findOne({$or: [{'username': username}, {'email': req.body.email}]},
                         
       (err, user) => {
                 
@@ -92,7 +92,7 @@ module.exports = function(passport) {
           return done(err);
         }
         if(user) {
-          if(user.local.username === username) {
+          if(user.username === username) {
             req.session.message = 'Username already exist!';
             return done(null, false);
           }
@@ -104,10 +104,10 @@ module.exports = function(passport) {
         else {
           var newuser = new User();
                         
-          newuser.local.name = req.body.name;
-          newuser.local.username = username;
-          newuser.local.email = req.body.email;
-          newuser.local.password = createHash(password);
+          newuser.name = req.body.name;
+          newuser.username = username;
+          newuser.email = req.body.email;
+          newuser.password = createHash(password);
           console.log(newuser);
           newuser.save(function(err) {
             if(err) {
@@ -133,7 +133,7 @@ module.exports = function(passport) {
     
   //    Function to check if password provided is correct
   var isValidPassword = function(user, password) {
-    return bcrypt.compareSync(password, user.local.password);
+    return bcrypt.compareSync(password, user.password);
   }       
 
 }
