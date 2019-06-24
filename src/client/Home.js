@@ -332,6 +332,27 @@ export default class Home extends Component {
     });
   }
 
+  getDates = (item) => {
+    const createdAt = new Date(item.createdAt);
+    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    let year = createdAt.getFullYear();
+    let month = months[createdAt.getMonth()];
+    let date = createdAt.getDate();
+    let hour = createdAt.getHours();
+    let min = createdAt.getMinutes();
+    const createdDate = `${date}, ${month} ${year} ${hour}: ${min}`;
+
+    const updatedAt = new Date(item.updatedAt);
+    year = updatedAt.getFullYear();
+    month = months[updatedAt.getMonth()];
+    date = updatedAt.getDate();
+    hour = updatedAt.getHours();
+    min = updatedAt.getMinutes();
+    const updatedDate = `${date}, ${month} ${year},  ${hour}: ${min}`;
+    console.log('item created and updates', createdDate, updatedDate);
+    return { createdAt: createdDate, updatedAt: updatedDate };
+  };
+
   renderUserDetails = () => {
     const { user, newFav } = this.state;
     return (
@@ -355,7 +376,9 @@ export default class Home extends Component {
           <h2>Favourite List</h2>
           {user.favourites && user.favourites.length > 0 ? (
             <React.Fragment>
-              {user.favourites.map((item, index) => (
+              {user.favourites.map((item, index) => {
+                const dates = this.getDates(item);
+                return (
                 <div className="fav-item">
                   <div className="move-btns">
                     {index > 0 && <button className="up" onClick={() => this.moveFavouriteItem(item._id, -1)}>move up</button>}
@@ -366,9 +389,11 @@ export default class Home extends Component {
                     <p><b>Title:</b> {item.title}</p>
                     <p><b>Description: </b>{item.Description}</p>
                     <p><b>Metadata: </b>{item.metadata}</p>
+                    <p><b>Created:</b> {dates.createdAt}| <b>Last Updated:</b>{dates.updatedAt}</p>
                   </div>
                 </div>
-              ))}
+                );
+              })}
               <div>
                 <button className="submit" onClick={this.updateList}>Update</button>
               </div>
@@ -377,13 +402,13 @@ export default class Home extends Component {
         </div>
         {user.auditLogs ? (
           <div className="logs">
-              <h2>Activity Logs</h2>
-              <ol>
+            <h2>Activity Logs</h2>
+            <ol>
                 {user.auditLogs.list.map(item => (
                   <li>{item}</li>
                 ))}
               </ol>
-            </div>
+          </div>
         ) : null}
         <div className="add-favourite">
           <h2>Add new favourite</h2>
@@ -406,8 +431,8 @@ export default class Home extends Component {
 
   render() {
     const {
- authForm, user, loading, error 
-} = this.state;
+      authForm, user, loading, error
+    } = this.state;
     return (
       <div>
         {loading ? (<h2>Loading....</h2>) : (

@@ -1,12 +1,8 @@
-# URL SHORTENER
-
-This web app generates URL shortener and tracks basic user info like city, country, IP, device, OS and browser. 
+# FAVORITE THINGS
+###This web app allows user to maintain a favourite list. 
 
 ## Technologies Used
 ReactJs, NodeJS, MongoDB, Express, Webpack, Heroku
 
 ## Application architecture
-This application maintains a URL address to a shortcode map. When the user visits the shortened link, it fetches the desired URL and redirects the user to it. And also stores their basic information on a mongo document.
-
-## Future additions
-If I had more time, I would have added an authentication layer to it. So every publisher can have separate dashboard and will have easy and secure access to their URLs and visitors' details.
+This application maintains a favourite list mapped to each user, individually. A user can login, add multiple items to their favourite list and keep them in a specific order which can be change anytime. A log of all the activities, he has done in the past is also displayed to the user.

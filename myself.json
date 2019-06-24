@@ -1,0 +1,11 @@
+{
+    "name": "Gitesh",
+    "expertise": "Full stack web development, Sales, Marketing",
+    "Education": "Kurukshetra University, Candidate for B.Tech(Computer Sc.)",
+    "totalExperience": {
+        "years": 5,
+        "months": 9
+    },
+    "technologySummary": ["HTML5", "CSS3", "Javascript", "ReactJS", "NodeJS", "MongoDB", "AngularJS", "JQuery", "PHP", "C", "Redux", "Redis", "Git", "SQL", "Socket.IO", "WebRTC", "Amplitude Analytics", "Google Analytics", "Heroku", "AWS", "Algorithmia", "Metamask"],
+    "Hobbies": ["Listening music", "Playing any game or sport", "Study and experience different things", "Travelling"]
+}

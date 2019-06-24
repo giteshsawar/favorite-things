@@ -30,8 +30,8 @@ body {
 }
 
 .submit {
-  background: white;
-  color: black;
+  background: black;
+  color: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.5);
   padding: 12px 24px;
   margin: 20px;
@@ -66,6 +66,21 @@ body {
   position: absolute;
   top: 20px;
   right: 20px;
+}
+.move-btns .up {
+  background: green;
+  color: white;
+  padding: 8px 12px;
+  border: 0;
+  font-size: 16px;
+  margin-right: 10px;
+}
+.move-btns .down {
+  background: red;
+  color: white;
+  padding: 8px 12px;
+  border: 0;
+  font-size: 16px;
 }
 .logs {
   float: right;
@@ -103,4 +118,7 @@ body {
   font-size: 16px;
   padding: 8px 32px;
   font-weight: 600;
+}
+.logout button {
+  margin-left: 0;
 }
