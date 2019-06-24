@@ -1,5 +1,5 @@
 # FAVORITE THINGS
-###This web app allows user to maintain a favourite list. 
+### This web app allows user to maintain a favourite list. 
 
 ## Technologies Used
 ReactJs, NodeJS, MongoDB, Express, Webpack, Heroku
